@@ -11,9 +11,10 @@ name: Auto-Packages
 on: 
   workflow_dispatch:
     inputs:
-      device:
+      target:
         description: '选择设备'
         required: false
+        default: 'x86_64'
         
   repository_dispatch:
   push: 
@@ -43,7 +44,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: ["${{ github.event.client_payload.target }}"]
+        target: ["${{ github.event.inputs.target || 'x86_64' }}"]
+        # target: ["${{ github.event.client_payload.target }}"]
         
     steps:
     - name: Checkout
@@ -53,6 +55,7 @@ jobs:
 
     - name: Load Settings.ini
       run: |
+        echo "target: ${{matrix.target}}"
         source "${GITHUB_WORKSPACE}/devices/common/settings.ini"
         echo "REPO_URL=${REPO_URL}" >> $GITHUB_ENV
         echo "REPO_BRANCH=${REPO_BRANCH}" >> $GITHUB_ENV
