@@ -9,6 +9,12 @@
 name: Auto-Packages
 
 on: 
+  workflow_dispatch:
+    inputs:
+      device:
+        description: '选择设备'
+        required: false
+        
   repository_dispatch:
   push: 
     branches:
