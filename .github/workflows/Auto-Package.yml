@@ -107,7 +107,7 @@ jobs:
     - name: Clone source code
       run: |
         set -v
-        REPO_BRANCH="23.05-SNAPSHOT"
+        REPO_BRANCH="24.10.0"
         echo "$REPO_BRANCH"
         if [ ${{matrix.target}} == "mipsel_24kc" ]; then
             curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/ramips/mt7621/immortalwrt-sdk-$REPO_BRANCH-ramips-mt7621_gcc-13.3.0_musl.Linux-x86_64.tar.zst || curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/ramips/mt7621/immortalwrt-sdk-$REPO_BRANCH-ramips-mt7621_gcc-13.3.0_musl.Linux-x86_64.tar.zst 
