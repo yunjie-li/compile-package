@@ -154,7 +154,7 @@ jobs:
     
     - name: Load custom configuration
       run: |
-        mkdir openwrt
+        mkdir -p -m 777 openwrt
         # tar -xJf sdk.tar.zst -C openwrt
         tar xvf sdk.tar.zst -C openwrt
         rm -Rf sdk.tar.zst
