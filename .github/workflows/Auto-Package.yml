@@ -68,11 +68,11 @@ jobs:
 
     - name: Trigger Packages Update
       run: |
-        gitdate="$(curl -H "Authorization: token ${{ env.REPO_TOKEN }}" -s "https://api.github.com/repos/kenzok8/small-package/actions/runs" | jq -r '.workflow_runs[0].created_at')" || true
+        gitdate="$(curl -H "Authorization: token ${{ env.REPO_TOKEN }}" -s "https://api.github.com/repos/yunjie-li/small-package/actions/runs" | jq -r '.workflow_runs[0].created_at')" || true
         gitdate="$(date -d "$gitdate" +%s)" || true
         now="$(date -d "$(date)" +%s)"
         if [[ $(expr $gitdate + 120) < $now ]]; then
-        curl -X POST https://api.github.com/repos/kenzok8/small-package/dispatches \
+        curl -X POST https://api.github.com/repos/yunjie-li/small-package/dispatches \
         -H "Accept: application/vnd.github.everest-preview+json" \
         -H "Authorization: token ${{ env.REPO_TOKEN }}" \
         --data '{"event_type": "update"}'
@@ -104,33 +104,33 @@ jobs:
         REPO_BRANCH="23.05-SNAPSHOT"
         echo "$REPO_BRANCH"
         if [ ${{matrix.target}} == "mipsel_24kc" ]; then
-            curl -fL -m 500 -o sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/ramips/mt7621/openwrt-sdk-$REPO_BRANCH-ramips-mt7621_gcc-12.3.0_musl.Linux-x86_64.tar.xz || curl -fL -m 500 -o sdk.tar.xz https://downloads.cdn.openwrt.org/releases/$REPO_BRANCH/targets/ramips/mt7621/openwrt-sdk-$REPO_BRANCH-ramips-mt7621_gcc-12.3.0_musl.Linux-x86_64.tar.xz 
+            curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/ramips/mt7621/immortalwrt-sdk-$REPO_BRANCH-ramips-mt7621_gcc-13.3.0_musl.Linux-x86_64.tar.zst || curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/ramips/mt7621/immortalwrt-sdk-$REPO_BRANCH-ramips-mt7621_gcc-13.3.0_musl.Linux-x86_64.tar.zst 
         elif [ ${{matrix.target}} == "mips_24kc" ]; then
-            curl -fL -m 500 -o sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/ath79/nand/openwrt-sdk-$REPO_BRANCH-ath79-nand_gcc-12.3.0_musl.Linux-x86_64.tar.xz || curl -fL -m 500 -o sdk.tar.xz https://downloads.cdn.openwrt.org/releases/$REPO_BRANCH/targets/ath79/nand/openwrt-sdk-$REPO_BRANCH-ath79-nand_gcc-12.3.0_musl.Linux-x86_64.tar.xz 
+            curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/ath79/nand/immortalwrt-sdk-$REPO_BRANCH-ath79-nand_gcc-13.3.0_musl.Linux-x86_64.tar.zst || curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/ath79/nand/immortalwrt-sdk-$REPO_BRANCH-ath79-nand_gcc-13.3.0_musl.Linux-x86_64.tar.zst 
         elif [[ ${{matrix.target}} == "x86_64" ]]; then
-            curl -fL -m 500 -o sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/x86/64/openwrt-sdk-$REPO_BRANCH-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz || curl -fL -m 500 -o sdk.tar.xz https://downloads.cdn.openwrt.org/releases/$REPO_BRANCH/targets/x86/64/openwrt-sdk-$REPO_BRANCH-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz
+            curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/x86/64/immortalwrt-sdk-$REPO_BRANCH-x86-64_gcc-13.3.0_musl.Linux-x86_64.tar.zst || curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/x86/64/immortalwrt-sdk-$REPO_BRANCH-x86-64_gcc-13.3.0_musl.Linux-x86_64.tar.zst
         elif [[ ${{matrix.target}} == "i386_pentium4" ]]; then
-            curl -fL -m 500 -o sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/x86/generic/openwrt-sdk-$REPO_BRANCH-x86-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz || curl -fL -m 500 -o sdk.tar.xz https://downloads.cdn.openwrt.org/releases/$REPO_BRANCH/targets/x86/generic/openwrt-sdk-$REPO_BRANCH-x86-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz
+            curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/x86/generic/immortalwrt-sdk-$REPO_BRANCH-x86-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst || curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/x86/generic/immortalwrt-sdk-$REPO_BRANCH-x86-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst
         elif [[ ${{matrix.target}} == "aarch64_generic" ]]; then
-            curl -fL -m 500 -o sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/rockchip/armv8/openwrt-sdk-$REPO_BRANCH-rockchip-armv8_gcc-12.3.0_musl.Linux-x86_64.tar.xz || curl -fL -m 500 -o sdk.tar.xz https://downloads.cdn.openwrt.org/releases/$REPO_BRANCH/targets/rockchip/armv8/openwrt-sdk-$REPO_BRANCH-rockchip-armv8_gcc-12.3.0_musl.Linux-x86_64.tar.xz
+            curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/rockchip/armv8/immortalwrt-sdk-$REPO_BRANCH-rockchip-armv8_gcc-13.3.0_musl.Linux-x86_64.tar.zst || curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/rockchip/armv8/immortalwrt-sdk-$REPO_BRANCH-rockchip-armv8_gcc-13.3.0_musl.Linux-x86_64.tar.zst
         elif [[ ${{matrix.target}} == "arm_arm1176jzf-s_vfp" ]]; then
-            curl -fL -m 500 -o sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/bcm27xx/bcm2708/openwrt-sdk-$REPO_BRANCH-bcm27xx-bcm2708_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz || curl -fL -m 500 -o sdk.tar.xz https://downloads.cdn.openwrt.org/releases/$REPO_BRANCH/targets/bcm27xx/bcm2708/openwrt-sdk-$REPO_BRANCH-bcm27xx-bcm2708_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz
+            curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/bcm27xx/bcm2708/immortalwrt-sdk-$REPO_BRANCH-bcm27xx-bcm2708_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst || curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/bcm27xx/bcm2708/immortalwrt-sdk-$REPO_BRANCH-bcm27xx-bcm2708_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst
         elif [[ ${{matrix.target}} == "arm_cortex-a15_neon-vfpv4" ]]; then
-            curl -fL -m 500 -o sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/ipq806x/generic/openwrt-sdk-$REPO_BRANCH-ipq806x-generic_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz || curl -fL -m 500 -o sdk.tar.xz https://downloads.cdn.openwrt.org/releases/$REPO_BRANCH/targets/ipq806x/generic/openwrt-sdk-$REPO_BRANCH-ipq806x-generic_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz
+            curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/ipq806x/generic/immortalwrt-sdk-$REPO_BRANCH-ipq806x-generic_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst || curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/ipq806x/generic/immortalwrt-sdk-$REPO_BRANCH-ipq806x-generic_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst
         elif [[ ${{matrix.target}} == "arm_cortex-a5_vfpv4" ]]; then
-            curl -fL -m 500 -o sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/at91/sama5/openwrt-sdk-$REPO_BRANCH-at91-sama5_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz || curl -fL -m 500 -o sdk.tar.xz https://downloads.cdn.openwrt.org/releases/$REPO_BRANCH/targets/at91/sama5/openwrt-sdk-$REPO_BRANCH-at91-sama5_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz
+            curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/at91/sama5/immortalwrt-sdk-$REPO_BRANCH-at91-sama5_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst || curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/at91/sama5/immortalwrt-sdk-$REPO_BRANCH-at91-sama5_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst
         elif [[ ${{matrix.target}} == "aarch64_cortex-a72" ]]; then
-            curl -fL -m 500 -o sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/bcm27xx/bcm2711/openwrt-sdk-$REPO_BRANCH-bcm27xx-bcm2711_gcc-12.3.0_musl.Linux-x86_64.tar.xz || curl -fL -m 500 -o sdk.tar.xz https://downloads.cdn.openwrt.org/releases/$REPO_BRANCH/targets/bcm27xx/bcm2711/openwrt-sdk-$REPO_BRANCH-bcm27xx-bcm2711_gcc-12.3.0_musl.Linux-x86_64.tar.xz
+            curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/bcm27xx/bcm2711/immortalwrt-sdk-$REPO_BRANCH-bcm27xx-bcm2711_gcc-13.3.0_musl.Linux-x86_64.tar.zst || curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/bcm27xx/bcm2711/immortalwrt-sdk-$REPO_BRANCH-bcm27xx-bcm2711_gcc-13.3.0_musl.Linux-x86_64.tar.zst
         elif [[ ${{matrix.target}} == "aarch64_cortex-a53" ]]; then
-            curl -fL -m 500 -o sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/mediatek/mt7622/openwrt-sdk-$REPO_BRANCH-mediatek-mt7622_gcc-12.3.0_musl.Linux-x86_64.tar.xz || curl -fL -m 500 -o sdk.tar.xz https://downloads.cdn.openwrt.org/releases/$REPO_BRANCH/targets/mediatek/mt7622/openwrt-sdk-$REPO_BRANCH-mediatek-mt7622_gcc-12.3.0_musl.Linux-x86_64.tar.xz
+            curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/mediatek/mt7622/immortalwrt-sdk-$REPO_BRANCH-mediatek-mt7622_gcc-13.3.0_musl.Linux-x86_64.tar.zst || curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/mediatek/mt7622/immortalwrt-sdk-$REPO_BRANCH-mediatek-mt7622_gcc-13.3.0_musl.Linux-x86_64.tar.zst
         elif [[ ${{matrix.target}} == "arm_cortex-a7_neon-vfpv4" ]]; then
-            curl -fL -m 500 -o sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/ipq40xx/generic/openwrt-sdk-$REPO_BRANCH-ipq40xx-generic_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz || curl -fL -m 500 -o sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/ipq40xx/mikrotik/openwrt-sdk-$REPO_BRANCH-ipq40xx-mikrotik_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz
+            curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/ipq40xx/generic/immortalwrt-sdk-$REPO_BRANCH-ipq40xx-generic_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst || curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/ipq40xx/mikrotik/immortalwrt-sdk-$REPO_BRANCH-ipq40xx-mikrotik_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst
         elif [[ ${{matrix.target}} == "arm_cortex-a7" ]]; then
-            curl -fL -m 500 -o sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/mediatek/mt7629/openwrt-sdk-$REPO_BRANCH-mediatek-mt7629_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz || curl -fL -m 500 -o sdk.tar.xz https://downloads.cdn.openwrt.org/releases/$REPO_BRANCH/targets/mediatek/mt7629/openwrt-sdk-$REPO_BRANCH-mediatek-mt7629_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz
+            curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/mediatek/mt7629/immortalwrt-sdk-$REPO_BRANCH-mediatek-mt7629_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst || curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/mediatek/mt7629/immortalwrt-sdk-$REPO_BRANCH-mediatek-mt7629_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst
         elif [[ ${{matrix.target}} == "arm_cortex-a9" ]]; then
-            curl -fL -m 500 -o sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/bcm53xx/generic/openwrt-sdk-$REPO_BRANCH-bcm53xx-generic_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz || curl -fL -m 500 -o sdk.tar.xz https://downloads.cdn.openwrt.org/releases/$REPO_BRANCH/targets/bcm53xx/generic/openwrt-sdk-$REPO_BRANCH-bcm53xx-generic_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz
+            curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/bcm53xx/generic/immortalwrt-sdk-$REPO_BRANCH-bcm53xx-generic_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst || curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/bcm53xx/generic/immortalwrt-sdk-$REPO_BRANCH-bcm53xx-generic_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst
         elif [[ ${{matrix.target}} == "arm_cortex-a9_vfpv3-d16" ]]; then
-            curl -fL -m 500 -o sdk.tar.xz https://downloads.openwrt.org/releases/$REPO_BRANCH/targets/mvebu/cortexa9/openwrt-sdk-$REPO_BRANCH-mvebu-cortexa9_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz || curl -fL -m 500 -o sdk.tar.xz https://downloads.cdn.openwrt.org/releases/$REPO_BRANCH/targets/mvebu/cortexa9/openwrt-sdk-$REPO_BRANCH-mvebu-cortexa9_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz
+            curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/mvebu/cortexa9/immortalwrt-sdk-$REPO_BRANCH-mvebu-cortexa9_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst || curl -fL -m 500 -o sdk.tar.zst https://downloads.immortalwrt.org/releases/$REPO_BRANCH/targets/mvebu/cortexa9/immortalwrt-sdk-$REPO_BRANCH-mvebu-cortexa9_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst
         fi
 
     - name: Free up disk space
@@ -146,10 +146,10 @@ jobs:
     - name: Load custom configuration
       run: |
         mkdir openwrt
-        tar -xJf sdk.tar.xz -C openwrt
-        rm -Rf sdk.tar.xz
+        tar -xJf sdk.tar.zst -C openwrt
+        rm -Rf sdk.tar.zst
         cd openwrt
-        cp -rf ./openwrt-sdk*/. ./ || true
+        cp -rf ./immortalwrt-sdk*/. ./ || true
         cp -rf ../devices ./
         cp -rf devices/common/. ./
         cp -rf devices/${{matrix.target}}/. ./
@@ -184,10 +184,10 @@ jobs:
 
     - name: Prepare
       run: |
-        status=$(curl -H "Authorization: token ${{ env.REPO_TOKEN }}" -s "https://api.github.com/repos/kenzok8/small-package/actions/runs" | jq -r '.workflow_runs[0].status')
+        status=$(curl -H "Authorization: token ${{ env.REPO_TOKEN }}" -s "https://api.github.com/repos/yunjie-li/small-package/actions/runs" | jq -r '.workflow_runs[0].status')
         while [ "$status" == "in_progress" ];do
           sleep 5
-          status=$(curl -H "Authorization: token ${{ env.REPO_TOKEN }}" -s "https://api.github.com/repos/kenzok8/small-package/actions/runs" | jq -r '.workflow_runs[0].status')
+          status=$(curl -H "Authorization: token ${{ env.REPO_TOKEN }}" -s "https://api.github.com/repos/yunjie-li/small-package/actions/runs" | jq -r '.workflow_runs[0].status')
         done
         cd openwrt
         make defconfig
@@ -226,7 +226,7 @@ jobs:
             if [[ "$fpkg" && ! "$during" ]]; then
               comp
             else
-              gitdate="$(curl -H "Authorization: token ${{ env.REPO_TOKEN }}" -s "https://api.github.com/repos/kenzok8/small-package/commits?path=$ipk&per_page=1" | jq -r '.[0].commit.committer.date')" || true
+              gitdate="$(curl -H "Authorization: token ${{ env.REPO_TOKEN }}" -s "https://api.github.com/repos/yunjie-li/small-package/commits?path=$ipk&per_page=1" | jq -r '.[0].commit.committer.date')" || true
               if [[ "$gitdate" && "$gitdate" != null ]]; then
                 gitdate="$(date -d "$gitdate" +%s)"
                 now="$(date -d "$(date)" +%s)"
